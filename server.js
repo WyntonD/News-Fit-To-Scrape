@@ -1,4 +1,4 @@
-var express = reuire("express");
+var express = require("express");
 var mongojs = require("mongojs");
 var axios = require("axios");
 var cheerio = require("cheerio");
@@ -8,7 +8,7 @@ var app = express();
 var databaseUrl = "scraper";
 var collections = ["scrapedData"];
 
-var db = mongojs(databaseUrl, collection);
+var db = mongojs(databaseUrl, collections);
 db.on("error", function(error) {
     console.log("Database Error:", error)
 });
@@ -26,4 +26,37 @@ app.get("/all", function (req, res) {
             res.json(found);
         }
     });
+});
+
+app.get("/scrape", function (req, res) {
+    axios.get("https://www.forbes.com/ai/#62ec1a757052").then(function (response) {
+
+    var $ = cheerio.load(response.data);
+
+    $(".editors-pick").each(function (i, element) {
+        var title = $(element).children("a").text();
+        var link = $(element).children("a").attr("href");
+            console.log("")
+        if (title && link) {
+            db.scrapedData.insert({
+                title:title,
+                link:link
+            },
+            function(err, inserted) {
+                if(err) {
+                    console.log(err);
+                }
+                else{
+                    console.log(inserted);
+                }
+            });
+        }
+    });
+    });
+
+    res.send("Data Scrape is Complete! Reading is Fundamental");
+});
+
+app.listen(3000, function() {
+    console.log("App running on port: 3000!");
 });

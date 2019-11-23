@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/WyntonD/News-Fit-To-Scrape/issues"
   },
-  "homepage": "https://github.com/WyntonD/News-Fit-To-Scrape#readme"
+  "homepage": "https://github.com/WyntonD/News-Fit-To-Scrape#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
+    "mongojs": "^3.1.0"
+  }
 }
