@@ -15,21 +15,7 @@ db.on("error", function(error) {
 
 app.get("/", function (req,res) {
     res.send("Hello world");
-});
-
-app.get("/all", function (req, res) {
-    db.scrapedData.find({}, function (error, found) {
-        if(error) {
-            console.log(error);
-        }
-        else {
-            res.json(found);
-        }
-    });
-});
-
-app.get("/scrape", function (req, res) {
-    axios.get("https://www.forbes.com/ai/#62ec1a757052").then(function (response) {
+        axios.get("https://www.forbes.com/ai/#62ec1a757052").then(function (response) {
 
     var $ = cheerio.load(response.data);
 
@@ -56,6 +42,21 @@ app.get("/scrape", function (req, res) {
 
     res.send("Data Scrape is Complete! Reading is Fundamental");
 });
+
+app.get("/all", function (req, res) {
+    db.scrapedData.find({}, function (error, found) {
+        if(error) {
+            console.log(error);
+        }
+        else {
+            res.json(found);
+        }
+    });
+});
+
+// app.get("/scrape", function (req, res) {
+
+// });
 
 app.listen(3000, function() {
     console.log("App running on port: 3000!");
